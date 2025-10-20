@@ -1,40 +1,49 @@
-while True:
-    choice= input("Select operation ([1] Addition, [2] Subtraction, [3] Multiplication, [4] Division, [5] Quit): ")
-    
-    if choice == "5":
-        print("Exiting the calculator. Goodbye!")
-        break
-    elif choice in ("1", "2", "3", "4"):
-        while True:
-            try:
-                num1=float(input("Enter first number: "))
-                break
-            except ValueError:
-                print("Invalid input. Please enter a valid number.")
-        while True:
-            try:
-                num2=float(input("Enter second number: "))
-                break
-            except ValueError:
-                print("Invalid input. Please enter a valid number.")
-        if choice == "4" and num2 == 0:
+def print_menu():
+    print("[1] Addition")
+    print("[2] Subtraction")
+    print("[3] Multiplication")
+    print("[4] Division")
+    print("[5] Quit")
+
+def get_number(prompt):
+    while True:
+        try:
+            value= float(input(prompt))
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+def calculate(choice, a, b):
+    if choice == "1":
+        return a + b
+    elif choice == "2":
+        return a - b
+    elif choice == "3":
+        return a * b
+    elif choice == "4":
+        if b == 0:
             print("Error: Division by zero is not allowed.")
-            continue                
-        if choice == "1":
-            print("You selected Addition")
-            result= num1 + num2
-            print("Result: ", result)
-        elif choice == "2":
-            print("You selected Subtraction")
-            result= num1 - num2
-            print("Result: ", result)
-        elif choice == "3":
-            print("You selected Multiplication")
-            result= num1 * num2
-            print("Result: ", result)
-        elif choice == "4":
-            print("You selected Division")
-            result= num1 / num2
-            print("Result: ", result)    
+            return None
+        return a / b
     else:
-        print("Invalid choice. Please select a valid operation.")
+        print("Unknown operation.")
+        return None
+    
+def main():
+    while True:
+        print_menu()
+        choice= input("Select an operation: ").strip().lower()    
+        if choice == "5":
+            print("Exiting the calculator. Goodbye!")
+            break
+        elif choice in ("1", "2", "3", "4"):
+            a= get_number("Enter first number: ")
+            b= get_number("Enter second number: ")
+            result=calculate(choice, a, b)
+            if result is not None:
+                print("Result: ", result)
+        else:
+            print("Invalid choice. Please select a valid operation.")
+
+if __name__ == "__main__":
+    main()
